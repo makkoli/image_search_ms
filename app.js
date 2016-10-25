@@ -1,6 +1,7 @@
 var express = require('express'),
     request = require('request'),
-    MongoClient = require('mongodb').MongoClient;
+    MongoClient = require('mongodb').MongoClient,
+    imageHelper = require('./imageHelper'),
     app = express();
 
 var url = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?"
@@ -21,7 +22,7 @@ app.get('/', function(req, res) {
 // Search for images
 app.get('/search/:search', function(req, res) {
     // Get the query parameters and add it to the options url
-    var paramStr = "q=" + req.params.search + "&count=" + req.query.offset;
+    var paramStr = "q=" + req.params.search + "&count=10&offset=" + req.query.offset;
     options.url = url + paramStr;
 
     // Request images from Bing api
@@ -37,9 +38,9 @@ app.get('/search/:search', function(req, res) {
             // Return the search info as a JSON object
             res.send(info.value.map(function(curr) {
                 return {
-                    "image url": curr.contentUrl,
+                    "image url": imageHelper.parseUrl(curr.contentUrl),
                     "name": curr.name,
-                    "page url": curr.hostPageUrl
+                    "page url": imageHelper.parseUrl(curr.hostPageUrl)
                 };
             }));
 
