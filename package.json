@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/makkoli/image_search_abstraction#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11",
+    "request": "^2.75.0"
   }
 }
