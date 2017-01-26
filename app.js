@@ -2,17 +2,18 @@ var express = require('express'),
     request = require('request'),
     MongoClient = require('mongodb').MongoClient,
     imageHelper = require('./imageHelper'),
+    env = require('./env/env'),
     app = express();
 
-var url = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?"
+var url = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?";
 // Options for the api request
 var options = {
     url: "",
     headers: {
         "Content-Type": "multipart/form-data",
-        "Ocp-Apim-Subscription-Key": "b1db519a1f82490189e3650a0e0fc995"
+        "Ocp-Apim-Subscription-Key": env.bingEnv.key
     }
-}
+};
 
 // Default home page
 app.get('/', function(req, res) {
@@ -59,6 +60,8 @@ app.get('/search/:search', function(req, res) {
                         console.log(err);
                     }
                 });
+
+                db.close();
             });
         }
     });
@@ -80,6 +83,8 @@ app.get('/latest', function(req, res) {
             else {
                 res.send(docs);
             }
+
+            db.close();
         });
     });
 });
