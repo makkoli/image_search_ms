@@ -2,7 +2,7 @@ var express = require('express'),
     request = require('request'),
     MongoClient = require('mongodb').MongoClient,
     imageHelper = require('./imageHelper'),
-    env = require('./env/env'),
+    //env = require('./env/env'),
     app = express();
 
 var url = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?";
