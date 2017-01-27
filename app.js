@@ -6,12 +6,14 @@ var express = require('express'),
     app = express();
 
 var url = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?";
+var mongoUrl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/image';
+var port = process.env.PORT || 8000;
 // Options for the api request
 var options = {
     url: "",
     headers: {
         "Content-Type": "multipart/form-data",
-        "Ocp-Apim-Subscription-Key": env.bingEnv.key
+        "Ocp-Apim-Subscription-Key": process.env.BING_KEY || env.bingEnv.key
     }
 };
 
@@ -46,7 +48,7 @@ app.get('/search/:search', function(req, res) {
             }));
 
             // Connect to mongo and insert new search
-            MongoClient.connect('mongodb://localhost:27017/image', function(err, db) {
+            MongoClient.connect(mongoUrl, function(err, db) {
                 if (err) {
                     console.log(err);
                 }
@@ -89,7 +91,7 @@ app.get('/latest', function(req, res) {
     });
 });
 
-var server = app.listen(8000, function() {
+var server = app.listen(port, function() {
     var port = server.address().port;
     console.log('Express server listening on port %s.', port);
 });
