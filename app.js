@@ -72,7 +72,7 @@ app.get('/search/:search', function(req, res) {
 // Retrieve the last 10 search terms
 app.get('/latest', function(req, res) {
     // Connect to mongo
-    MongoClient.connect('mongodb://localhost:27017/image', function(err, db) {
+    MongoClient.connect(mongoUrl, function(err, db) {
         if (err) {
             console.log(err);
         }
